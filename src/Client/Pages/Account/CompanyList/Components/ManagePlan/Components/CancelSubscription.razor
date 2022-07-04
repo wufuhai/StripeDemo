@@ -1,0 +1,113 @@
+﻿@namespace QNE.App.Pages.Account
+
+<div class="cancel-modal @((ShowCancelPopUp ? "cancel-modal-open": ""))" style="@((MainLayout != null && MainLayout.Collapsed ? "left: 48px; width: calc(100% - 48px);": "left: 230px;width: calc(100% - 230px);"))">
+    <Row class="cancel-modal-header">
+        <AntDesign.Col Xs="24" Lg="6" Class="text-center">
+            <img src="./assets/img/official-logo-new.png" width="200" height="45" />
+        </AntDesign.Col>
+        <AntDesign.Col Xs="24" Lg="18">
+            @*TODO: Change this warning image to correct image*@
+            <div class="right">
+                <img src="./assets/img/warning.png" width="120" height="120" />
+                <div>
+                    <div>
+                        <p class="margin-bottom-0">We're sorry to see you go.</p>
+                        <p><strong>Are you sure you want to cancel your subscription?</strong></p>
+                        <p class="important">
+                            <strong>IMPORTANT:</strong>
+                            By cancelling your account, you lose all your data, including your company set-up, master files, transactions and reports, Cancellation will be effective at the end of your current billing period.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </AntDesign.Col>
+    </Row>
+    <Row class="float-right">
+        @*TODO: Add arrow icon to icon font library*@
+        <Button Class="never-mind-button-header"><IconFont Type="icon-remove"></IconFont> Never mind! Take me back to my account.</Button>
+    </Row>
+    <Divider class="header-hr" />
+    <Row Class="reason-section custom-sections">
+        <AntDesign.Col Xs="24" Lg="6">
+            Please share your reason for leaving.
+            <p>REQUIRED</p>
+        </AntDesign.Col>
+        <AntDesign.Col Xs="24" Lg="6">
+            <Checkbox> Bugs or Set-Up Problems</Checkbox>
+            <Checkbox> Poor Support Services</Checkbox>
+            <Checkbox> Not Using it Enough (Not At All)</Checkbox>
+        </AntDesign.Col>
+        <AntDesign.Col Xs="24" Lg="6">
+            <Checkbox> Never Onboarded Or Fiqured it out</Checkbox>
+            <Checkbox> Too Expensive</Checkbox>
+            <Checkbox> Missing Features We Need</Checkbox>
+        </AntDesign.Col>
+        <AntDesign.Col Xs="24" Lg="6">
+            <Checkbox> Shutting Down Business</Checkbox>
+            <Checkbox> Other</Checkbox>
+            <Checkbox> Billing Issue/Help</Checkbox>
+        </AntDesign.Col>
+    </Row>
+    <Row Class="other-solution-section custom-sections">
+        <AntDesign.Col Xs="24" Lg="6">
+            Which other solution you will use now?
+            <p>REQUIRED</p>
+        </AntDesign.Col>
+        <AntDesign.Col Xs="24" Lg="16">
+            <Input TValue="string" />
+        </AntDesign.Col>
+    </Row>
+    <Row Class="likely-to-return-section custom-sections">
+        <AntDesign.Col Xs="24" Lg="6">
+            How likely are you to return?
+            <p>REQUIRED</p>
+        </AntDesign.Col>
+        <AntDesign.Col Xs="24" Lg="16">
+            <div class="choose-section">
+                <span>Not A Chance!</span>
+                <div class="number-container">
+                    <RadioGroup @bind-Value="@_returnRating">
+                        <Radio Value="1">1</Radio>
+                        <Radio Value="2">2</Radio>
+                        <Radio Value="3">3</Radio>
+                        <Radio Value="4">4</Radio>
+                        <Radio Value="5">5</Radio>
+                        <Radio Value="6">6</Radio>
+                        <Radio Value="7">7</Radio>
+                        <Radio Value="8">8</Radio>
+                        <Radio Value="9">9</Radio>
+                        <Radio Value="10">10</Radio>
+                    </RadioGroup>
+                </div>
+                <span><strong>Absolutely will!</strong></span>
+            </div>
+
+        </AntDesign.Col>
+    </Row>
+    <Row Class="share-about-section">
+        <AntDesign.Col Xs="24" Lg="6">
+            Anything else you'd like to share about your experience?
+        </AntDesign.Col>
+        <AntDesign.Col Xs="24" Lg="16">
+            <TextArea Rows="2"></TextArea>
+        </AntDesign.Col>
+    </Row>
+    <Row Class="share-about-section">
+        <AntDesign.Col Span="24">
+            <div class="text-center">
+                <Checkbox>
+                    I understand the i will lose all my data, including my company set-up, master files, transactions and reports,
+                    Cancellation will be effective at the end of my current billing period.
+                </Checkbox>
+            </div>
+        </AntDesign.Col>
+    </Row>
+    <Row>
+        <AntDesign.Col Span="24">
+            <div class="footer-button-section">
+                <Button Class="cancel-button">Cancel My Account</Button>
+                <Button Class="nevermind-button" OnClick="@(() => Parent.TriggerCancelPopUp(false))">Nevermind</Button>
+            </div>
+        </AntDesign.Col>
+    </Row>
+</div>

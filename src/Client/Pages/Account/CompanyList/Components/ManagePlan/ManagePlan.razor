@@ -1,0 +1,16 @@
+﻿@namespace QNE.App.Pages.Account
+
+<CascadingValue Value="this" Name="Parent">
+    @if (!UpgradeMode)
+    {
+        <SubscriptionDetails Company="@Company" Plan="@_currentPlan">
+        </SubscriptionDetails>
+    }
+    else
+    {
+        <PlanSection Company="@Company" Companies="@_biller_list">
+        </PlanSection>
+    }
+
+    <CancelSubscription ShowCancelPopUp="@_showCancelPopUp"></CancelSubscription>
+</CascadingValue>

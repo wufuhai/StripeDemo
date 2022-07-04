@@ -1,0 +1,44 @@
+// Layout Gutter
+@layout-gutter: 8px;
+
+@xs: (@layout-gutter / 2); // 4px
+@sm: @layout-gutter; // 8px
+@md: (@layout-gutter * 2); // 16px
+@lg: (@layout-gutter * 3); // 24px
+@xl: (@layout-gutter * 4); // 32px
+@xxl: (@layout-gutter * 6); // 48px
+
+@spacings: 0 0, xs @xs, sm @sm, md @md, lg @lg, xl @xl, xxl @xxl;
+
+// Basic loop
+.for(@adList, @adCode) {
+    & {
+        .loop(@adI: 1) when (@adI =< length(@adList)) {
+            @adIndex: @adI - 1;
+            @adItem: extract(@adList, @adI);
+
+            @adCode
+            ();
+            .loop(@adI + 1);
+        }
+
+        .loop();
+    }
+}
+
+.for-each(@adList, @adCode) {
+    & {
+        .loop(@adI: 1) when (@adI =< length(@adList)) {
+            @adIndex: @adI - 1;
+            @adItem: extract(@adList, @adI);
+            @adKey: extract(@adItem, 1);
+            @adValue: extract(@adItem, 2);
+
+            @adCode
+            ();
+            .loop(@adI + 1);
+        }
+
+        .loop();
+    }
+}

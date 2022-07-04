@@ -1,0 +1,57 @@
+@import '../../../../../styles/theme/utils/_color.less';
+
+.company-details-section {
+    div {
+        margin-bottom: 20px;
+    }
+
+    .manage-tab-company-avatar {
+        gap: 15px;
+        align-items: center;
+
+        h3 {
+            margin-bottom: 0;
+        }
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    .upgrade-section {
+        display: flex;
+        flex-direction: column;
+
+        Button {
+            background-color: @bg-blue-dark;
+            color: @text-white;
+            max-width: 170px;
+            margin-left: 15px;
+            margin-bottom: 10px;
+
+            &:focus {
+                background-color: @bg-blue-dark !important;
+                color: @text-white !important;
+            }
+
+            &:active {
+                background-color: @bg-yellow !important;
+                color: #000 !important;
+            }
+        }
+    }
+
+    .cancel-section {
+        width: 170px;
+        text-align: center;
+        margin-left: 15px;
+
+        button {
+            color: #000;
+
+            span {
+                text-decoration: underline;
+            }
+        }
+    }
+}

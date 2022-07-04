@@ -1,0 +1,439 @@
+@namespace QNE.App.Pages.Account
+
+<Row Class="manage-plan-steps-container">
+    <AntDesign.Col Xs="24" Md="18" Class="min-with-max-content">
+        <Steps Current="CurrentManagePlanStep" Class="steps-header">
+            <Step Title="Plan"></Step>
+            <Step Title="Add-ons"></Step>
+            <Step Title="Select Billing Account"></Step>
+            <Step Title="Review and Pay"></Step>
+        </Steps>
+        <div class="steps-content-container">
+            @if (CurrentManagePlanStep == 0)
+            {
+                <div class="plans-container">
+                    <div class="first-column">
+                        <div class="header">
+                            <div class="priod-switch-container">
+                                <span>Monthly</span>
+                                <Switch />
+                                <span>Yearly</span>
+                            </div>
+                            <p class="period-description">Get additional 2 months for FREE when you subscribe yearly!</p>
+                        </div>
+                        <div class="titles-description">
+                            <p>User Account Included</p>
+                            <p>Send Invoices and Quotes</p>
+                            <p>Enter Bills</p>
+                            <p>Reconcile Bank Transaction</p>
+                            <p>OCR</p>
+                            <p>Multi Currency</p>
+                            <p>Track Income</p>
+                            <p>Track Expenses</p>
+                            <p>Track VAT</p>
+                            <p>Financial Reports</p>
+                            <p>Recurring Transactions</p>
+                            <p>Track Inventory</p>
+                            <p>Track Projects</p>
+                            <p>Manage Budgets</p>
+                            <p>BIR Forms</p>
+                        </div>
+                    </div>
+                    @foreach (var plan in _plans)
+                    {
+                        <div class="plan-item @(plan.Active ? "activated" : "")">
+                            <div class="plan-item-internal">
+                                <div class="header-section">
+                                    <div class="plan-title-container">
+                                        <div class="internal-section">
+                                            <div class="plan-title @(plan.Active ? "plan-title-active" : "")">
+                                                <div class="tick-box">
+                                                    <Checkbox Class=@(plan.Active ? "" : "d-none") @bind-Checked="@plan.Active" />
+                                                </div>
+                                                <span class="sub-plan-title">@plan.Title</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="without-price">
+                                        <p class="plan-price-sub">@plan.SubTitle</p>
+                                    </div>
+                                    @*<p class="plan-price">780</p>
+                                        <p class="plan-price-sub">per month</p>*@
+                                </div>
+                             
+                                <p>@(plan.NOU == 0 ? "Unlimited" : $"{plan.NOU} User")</p>
+                                <p>@(plan.InvoiceCount == 0 ? "Unlimited" : $"{plan.InvoiceCount} per year")</p>
+                                <p>@(plan.BillCount == 0 ? "Unlimited" : $"{plan.BillCount} per year")</p>
+                                <p>@(plan.BankReconCount == 0 ? "Unlimited" : $"{plan.BankReconCount} per year")</p>
+                                <p>@(plan.OcrCount == 0 ? "Unlimited" : $"FREE {plan.OcrCount} scans")</p>
+
+                                @*Multi-Currency*@
+                                <p><Icon Type=@(plan.IsModuleEnabled(plan.ModuleValues1, 128) ?"check" : "close") Theme="outline" /></p>
+                                @*Track Income*@
+                                <p><Icon Type=@(plan.IsModuleEnabled(plan.ModuleValues1, 2) ?"check" : "close") Theme="outline" /></p>
+                                @*Track Expenses*@
+                                <p><Icon Type=@(plan.IsModuleEnabled(plan.ModuleValues1, 4) ?"check" : "close") Theme="outline" /></p>
+                                @*Track VAT*@
+                                <p><Icon Type=@(plan.IsModuleEnabled(plan.ModuleValues1, 512) ?"check" : "close") Theme="outline" /></p>
+                                @*Financial Reports*@
+                                <p><Icon Type=@(plan.IsModuleEnabled(plan.ModuleValues1, 1) ?"check" : "close") Theme="outline" /></p>
+                                @*Recurring Transactions*@
+                                <p><Icon Type=@(plan.IsModuleEnabled(plan.ModuleValues2, 16384) ?"check" : "close") Theme="outline" /></p>
+                                @*Track Inventory*@
+                                <p><Icon Type=@(plan.IsModuleEnabled(plan.ModuleValues1, 8) ?"check" : "close") Theme="outline" /></p>
+                                @*Track Projects*@
+                                <p><Icon Type=@(plan.IsModuleEnabled(plan.ModuleValues1, 256) ?"check" : "close") Theme="outline" /></p>
+                                @*Manage Budget*@
+                                <p><Icon Type=@(plan.IsModuleEnabled(plan.ModuleValues1, 4096) ?"check" : "close") Theme="outline" /></p>
+                                @*BIR Forms*@
+                                <p><Icon Type=@(plan.IsModuleEnabled(plan.ModuleValues1, 512) ?"check" : "close") Theme="outline" /></p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else if (CurrentManagePlanStep == 1)
+            {
+                <div class="add-ons-content-container">
+                    <div class="company-details-section">
+                        <Row Class="manage-tab-company-avatar">
+                            <Avatar Size="large" Src="@Company?.PictureUrl" />
+                            <h3>@Company?.CompanyName</h3>
+                        </Row>
+                        <div class="company-detail-paln-summery">
+                            <p>@(Company?.Subscription?.Status)</p>
+                            <p>Plan: @(Company?.Subscription?.Plan)</p>
+                            <p>Subscribed Until: @(Company?.Subscription?.GetExpiry().ToString("MMMM dd, yyyy"))</p>
+                        </div>
+                    </div>
+                    <h3>Optional Add-ons</h3>
+                    <div class="add-ons-items">
+                        <table>
+                            <tr>
+                                <td>
+                                    <Checkbox @bind-Value="@_plan.CallInSupport" CheckedChange="@Recalculate"> Yearly Call-in Support</Checkbox>
+                                </td>
+                                <td>
+                                    2,620.80
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Checkbox @bind-Value="@_plan.AdditionalScan" CheckedChange="@Recalculate"> OCR scan <br> <span class="sub-title">additional 250 scans</span></Checkbox>
+                                </td>
+                                <td>
+                                    500.00
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Checkbox> Project Module</Checkbox>
+                                </td>
+                                <td>
+                                    available soon
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Checkbox> Inventory Module</Checkbox>
+                                </td>
+                                <td>
+                                    available soon
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Checkbox> Multi-Location</Checkbox>
+                                </td>
+                                <td>
+                                    available soon
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            else if (CurrentManagePlanStep == 2)
+            {
+                <div class="billing-account-content-container">
+                    <div class="company-details-section">
+                        <Row Class="manage-tab-company-avatar">
+                            <Avatar Size="large" Src="@Company?.PictureUrl" />
+                            <h3>@Company?.CompanyName</h3>
+                        </Row>
+                        <div class="company-detail-paln-summery">
+                            <p>@Company?.Subscription?.Status</p>
+                            <p>Plan: @Company?.Subscription?.Plan</p>
+                            <p>Subscribed Until: @Company?.Subscription?.GetExpiry().ToString("MMMM dd, yyyy") </p>
+                        </div>
+                    </div>
+                    <p> a billing account holds your payment details for your QNE Cloud Accounting Subscription .</p>
+                    <Row Class="row-container">
+                        <AntDesign.Col Xs="24" Md="12">
+                            <InputGroup Compact Class="select-billing-container">
+                                @*TODO: Implement contexts and functionality of this form*@
+                                @*TODO: Add arrow down icon to icon font library*@
+                                <IconFont Type="icon-remove"></IconFont>
+                                <Select DataSource="@Companies" @bind-Value="@_selectedBillingAccount" ValueName="Name"
+                                    LabelName="Name" Placeholder="Select Billing Account" EnableSearch>
+                                </Select>
+                            </InputGroup>
+                        </AntDesign.Col>
+                    </Row>
+
+                    <Row Class="row-container">
+                        <AntDesign.Col Xs="24" Md="12">
+                            <Row Class="row-inner">
+                                <AntDesign.Col Xs="24" Md="6">
+                                    <span>Company Name</span>
+                                </AntDesign.Col>
+                                <AntDesign.Col Xs="24" Md="18">
+                                    <Input TValue="string" />
+                                </AntDesign.Col>
+                            </Row>
+                        </AntDesign.Col>
+                        <AntDesign.Col Xs="24" Md="12">
+                            <Row Class="row-inner">
+                                <AntDesign.Col Xs="24" Md="6">
+                                    <span>Contact Person</span>
+                                </AntDesign.Col>
+                                <AntDesign.Col Xs="24" Md="18">
+                                    <Input TValue="string" />
+                                </AntDesign.Col>
+                            </Row>
+                        </AntDesign.Col>
+                    </Row>
+                    <Row Class="row-container">
+                        <AntDesign.Col Xs="24" Md="12">
+                            <Row Class="row-inner">
+                                <AntDesign.Col Xs="24" Md="6">
+                                    <span>Reg or Tin No.</span>
+                                </AntDesign.Col>
+                                <AntDesign.Col Xs="24" Md="18">
+                                    <Input TValue="string" />
+                                </AntDesign.Col>
+                            </Row>
+                        </AntDesign.Col>
+                        <AntDesign.Col Xs="24" Md="12">
+                            <Row Class="row-inner">
+                                <AntDesign.Col Xs="24" Md="6">
+                                    <span>Email Address</span>
+                                </AntDesign.Col>
+                                <AntDesign.Col Xs="24" Md="18">
+                                    <Input TValue="string" />
+                                </AntDesign.Col>
+                            </Row>
+                        </AntDesign.Col>
+                    </Row>
+                    <Row Class="row-container">
+                        <AntDesign.Col Xs="24" Md="12">
+                            <Row>
+                                <AntDesign.Col Xs="24" Md="6">
+                                    <span>Address</span>
+                                </AntDesign.Col>
+                                <AntDesign.Col Xs="24" Md="18">
+                                    <div class="address-container">
+                                        <Input TValue="string" Placeholder="Unit No./ Street" />
+                                        <Input TValue="string" Placeholder="City" />
+                                        <Input TValue="string" Placeholder="Region" />
+                                        <Input TValue="string" Placeholder="Country" />
+                                        <Input TValue="string" Placeholder="Postal Code" />
+                                    </div>
+                                </AntDesign.Col>
+                            </Row>
+                        </AntDesign.Col>
+                        <AntDesign.Col Xs="24" Md="12">
+                            <Row Class="row-inner">
+                                <AntDesign.Col Xs="24" Md="6">
+                                    <span>Phone</span>
+                                </AntDesign.Col>
+                                <AntDesign.Col Xs="24" Md="18">
+                                    <Input TValue="string" />
+                                </AntDesign.Col>
+                            </Row>
+                        </AntDesign.Col>
+                    </Row>
+                </div>
+            }
+            else if (CurrentManagePlanStep == 3)
+            {
+                <div class="review-container">
+                    <div class="company-details-section">
+                        <Row Class="manage-tab-company-avatar">
+                            <Avatar Size="large" Src="@Company?.PictureUrl" />
+                            <h3>@Company?.CompanyName</h3>
+                        </Row>
+                        <div class="company-detail-paln-summery">
+                            <p>@Company?.Subscription?.Status</p>
+                            <p>Plan: @Company?.Subscription?.Plan</p>
+                            <p>Subscribed Until: @Company?.Subscription?.GetExpiry().ToString("MMMM ddd, yyyy") </p>
+                        </div>
+                    </div>
+                    <Row>
+                        <AntDesign.Col Xs="24" Md="10">
+                            <Row Class="left-section">
+                                <AntDesign.Col Xs="24" Md="6">
+                                    <strong>BILL TO:</strong>
+                                </AntDesign.Col>
+                                <AntDesign.Col Xs="24" Md="18">
+                                    <div class="bill-to-top-section">
+                                        <p>TechCommunity Inc.</p>
+                                        <p>006-988-765-000</p>
+                                        <p>Unit 2619 Grand Riviera Suites, Ermita,</p>
+                                        <p>Manila, Metro Manila, Philippines, 1000</p>
+                                    </div>
+                                    <p>Jessica P.Sanchez</p>
+                                    <p>jessica@qne.com.ph</p>
+                                    <p>+63 9178147551</p>
+                                </AntDesign.Col>
+                            </Row>
+                        </AntDesign.Col>
+                        <AntDesign.Col Span="14">
+                            <div class="right-section">
+                                <div class="pay-container">
+                                    <Row Class="row-container">
+                                        <AntDesign.Col Xs="24" Md="6">
+                                            <span>CARD NUMBER</span>
+                                        </AntDesign.Col>
+                                        <AntDesign.Col Xs="24" Md="18">
+                                            <Input TValue="string" />
+                                        </AntDesign.Col>
+                                    </Row>
+                                    <Row Class="row-container">
+                                        <AntDesign.Col Xs="24" Md="6">
+                                            <span>NAME ON CARD</span>
+                                        </AntDesign.Col>
+                                        <AntDesign.Col Xs="24" Md="18">
+                                            <Input TValue="string" />
+                                        </AntDesign.Col>
+                                    </Row>
+                                    <Row Class="row-container">
+                                        <AntDesign.Col Xs="24" Md="6">
+                                            <span>EXPIRY DATE</span>
+                                        </AntDesign.Col>
+                                        <AntDesign.Col Xs="24" Md="18">
+                                            <Input TValue="string" InputElementSuffixClass="small-input" />
+                                        </AntDesign.Col>
+                                    </Row>
+                                    <Row Class="row-container">
+                                        <AntDesign.Col Xs="24" Md="6">
+                                            <span>SECURITY CODE</span>
+                                        </AntDesign.Col>
+                                        <AntDesign.Col Xs="24" Md="18">
+                                            <Input TValue="string" InputElementSuffixClass="small-input" />
+                                        </AntDesign.Col>
+                                    </Row>
+                                </div>
+                                <p class="description">
+                                    Your plan starts immediately. You'll be billed on 10 March 2022 and each year after.
+                                    your subscriptions auto-renew yearly until the organization is cancelled from Subscriptions & Billing.
+                                    There is a 1 month notice period required for your cancellation. Contact support if you need help.
+                                </p>
+                            </div>
+                        </AntDesign.Col>
+                    </Row>
+                </div>
+            }
+        </div>
+    </AntDesign.Col>
+    <AntDesign.Col Xs="24" Md="6" Class="summary-column">
+        @*TODO: impelement functionality for this section*@
+        @if (CurrentManagePlanStep == 0)
+        {
+            <div class="company-details-section">
+                <Row Class="manage-tab-company-avatar">
+                    <Avatar Size="large" Src="@Company?.PictureUrl" />
+                    <h3>@Company?.CompanyName</h3>
+                </Row>
+                <div class="company-detail-paln-summery">
+                    @*<p>@Company?.Subscription?.Status</p>*@
+                    <p>Plan: STARTER</p>
+                    @*<p>Subscribed Until: @Company?.Subscription?.GetExpiry().ToString("MMMM dd, yyyy") </p>*@
+                </div>
+            </div>
+        }
+        <div class="paln-summery-container">
+            <div class="top-section">
+                <h3>Plan Summary</h3>
+                <div class="first-section">
+                    <div class="summary-item">
+                        <div class="text-left">Starter Plan</div>
+                        <div class="text-right">0.00</div>
+                    </div>
+
+                    @if (@_plan.CallInSupport)
+                    {
+                        <div class="summary-item">
+                            <div class="text-left">Yearly Call-in Support</div>
+                            <div class="text-right">0.00</div>
+                        </div>
+                    }
+
+                    @if (@_plan.AdditionalScan)
+                    {
+                        <div class="summary-item">
+                            <div class="text-left">OCR Scan</div>
+                            <div class="text-right">0.00</div>
+                        </div>
+                    }
+                </div>
+
+                <hr />
+                <div class="summary-item">
+                    <div class="text-left">Sub Total</div>
+                    <div class="text-right">@_plan.SubTotal.ToString("n2")</div>
+                </div>
+                <div class="summary-item">
+                    @{
+                        string GetTaxTerm(string country)
+                        {
+                            switch (country)
+                            {
+                                case "MY": return "SST(10%)";
+                                case "PH": return "VAT(12%)";
+                                case "MM": return "CT(5%)";
+                                default: return "";
+                            }
+                        }
+                    }
+                    <div class="text-left">@(GetTaxTerm(Company?.Country))</div>
+                    <div class="text-right">@_plan.Tax.ToString("n2")</div>
+                </div>
+                <hr />
+                <div class="summary-item">
+                    <div class="text-left">Yearly Total</div>
+                    <div class="text-right">@((_plan.SubTotal + _plan.Tax).ToString("n2"))</div>
+                </div>
+            </div>
+            <div class="bottom-section">
+                <div class="vocher-input-container">
+                    <div class="vocher-input-inner">
+                        <InputGroup Compact>
+                            <Input TValue="string" Placeholder="Voucher" />
+                            <Button Type="@ButtonType.Text">Apply</Button>
+                        </InputGroup>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <Button OnClick="ManagePlanUpgradeNextStep">Stripe Checkout</Button>
+                    </div>
+                    <div>
+                        <Button OnClick="ManagePlanUpgradeNextStep">@ManagePlanNextStepMessage</Button>
+                    </div>
+                    <div>
+                        @if (CurrentManagePlanStep > 0)
+                        {
+                            <Button OnClick="ManagePlanUpgradePreviousStep">@ManagePlanPreviousStepMessage</Button>
+                        }
+                        else if (IsRegistration && CurrentManagePlanStep == 0)
+                        {
+                            <Button OnClick="@(()=> { BackToParent(); })">Maybe Next Time</Button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </AntDesign.Col>
+</Row>

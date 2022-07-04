@@ -1,0 +1,113 @@
+﻿@namespace QNE.App.Pages.Account
+
+<Row>
+    <AntDesign.Col Xs="24" Md="12" Class="min-with-max-content">
+        <div class="company-details-section">
+            <Row Class="manage-tab-company-avatar">
+                <Avatar Size="large" Src="@Company.PictureUrl" />
+                <h3>@Company.CompanyName</h3>
+            </Row>
+            <div>
+                <p>@(_subscriptionInfo.Status)</p>
+                <p>Plan: @(_subscriptionInfo.Plan)</p>
+                @*<p>Product ID: QCA68-56SB0</p>*@
+                <p>No. of Users: @(_subscriptionInfo.Nou)</p>
+            </div>
+            <div>
+                <p>Billing Cycle: Yearly Billing</p>
+                <p>Subscribed Until: @(_subscriptionInfo.GetExpiry().ToString("MMM dd, yyyy"))</p>
+            </div>
+
+            <Divider Text="Transaction Counter" Orientation="Left"></Divider>
+
+            <div>
+                <p>Covered Period: @(_converedPeriod)</p>
+                <p>Customer Invoice: @(_subscriptionInfo.InvoiceCount)</p>
+                <p>Supplier Bills: @(_subscriptionInfo.BillCount)</p>
+                <p>Reconciled Bank Transaction: @(_subscriptionInfo.BankReconCount)</p>
+                <p>OCR Scan: @(_subscriptionInfo.OcrCount)</p>
+            </div>
+            <div class="upgrade-section">
+                <Button OnClick="@(() => Parent.SwithUpgradMode(true))" Disabled="false">Upgrade Plan</Button>
+                <Button Disabled="true">Avail Add-ons</Button>
+            </div>
+            <div class="cancel-section">
+                <Button Type="@ButtonType.Link" OnClick="@(() => Parent.TriggerCancelPopUp(true))" Disabled="true">Cancel Subscription</Button>
+            </div>
+            <div>
+                <abbr class="text-red">(Other plans will be available soon...)</abbr>
+            </div>
+        </div>
+    </AntDesign.Col>
+    <AntDesign.Col Xs="24" Md="12" Class="min-with-max-content">
+        <div class="plan-details-container">
+            <div class="plan-details-section">
+                <div class="section-container">
+                    <div class="left-section">
+                        <h2 class="header-title">What's included <br /> in your Plan.</h2>
+                        <p>User Account Included</p>
+                        <p>Send Invoices and Quotes</p>
+                        <p>Enter Bills</p>
+                        <p>Reconcile Bank Transaction</p>
+                        <p>OCR</p>
+                        <p>Multi Currency</p>
+                        <p>Track Income</p>
+                        <p>Track Expenses</p>
+                        <p>Track VAT</p>
+                        <p>Financial Reports</p>
+                        <p>Recurring Transactions</p>
+                        <p>Track Inventory</p>
+                        <p>Track Projects</p>
+                        <p>Manage Budgets</p>
+                        <p>BIR Forms</p>
+                    </div>
+                    <div class="right-section">
+                        <div class="plan-item">
+                            <div class="header-section">
+                                <div class="plan-title-container">
+                                    <div class="internal-section">
+                                        <div class="plan-title plan-title-active">
+                                            <div class="tick-box">
+                                                <Checkbox Checked Disabled />
+                                            </div>
+                                            <span class="title">@Plan.Title</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="plan-price">0.00</p>
+                                <p class="plan-price-sub">per month</p>
+                            </div>
+                            <p>@(Plan.NOU == 0 ? "Unlimited" : $"{Plan.NOU} User")</p>
+                            <p>@(Plan.InvoiceCount == 0 ? "Unlimited" : $"{Plan.InvoiceCount} per year")</p>
+                            <p>@(Plan.BillCount == 0 ? "Unlimited" : $"{Plan.BillCount} per year")</p>
+                            <p>@(Plan.BankReconCount == 0 ? "Unlimited" : $"{Plan.BankReconCount} per year")</p>
+                            <p>@(Plan.OcrCount == 0 ? "Unlimited" : $"FREE {Plan.OcrCount} scans")</p>
+
+                            @*Multi-Currency*@
+                            <p><Icon Type=@(Plan.IsModuleEnabled(Plan.ModuleValues1, 128) ?"check" : "close") Theme="outline" /></p>
+                            @*Track Income*@
+                            <p><Icon Type=@(Plan.IsModuleEnabled(Plan.ModuleValues1, 2) ?"check" : "close") Theme="outline" /></p>
+                            @*Track Expenses*@
+                            <p><Icon Type=@(Plan.IsModuleEnabled(Plan.ModuleValues1, 4) ?"check" : "close") Theme="outline" /></p>
+                            @*Track VAT*@
+                            <p><Icon Type=@(Plan.IsModuleEnabled(Plan.ModuleValues1, 512) ?"check" : "close") Theme="outline" /></p>
+                            @*Financial Reports*@
+                            <p><Icon Type=@(Plan.IsModuleEnabled(Plan.ModuleValues1, 1) ?"check" : "close") Theme="outline" /></p>
+                            @*Recurring Transactions*@
+                            <p><Icon Type=@(Plan.IsModuleEnabled(Plan.ModuleValues2, 16384) ?"check" : "close") Theme="outline" /></p>
+                            @*Track Inventory*@
+                            <p><Icon Type=@(Plan.IsModuleEnabled(Plan.ModuleValues1, 8) ?"check" : "close") Theme="outline" /></p>
+                            @*Track Projects*@
+                            <p><Icon Type=@(Plan.IsModuleEnabled(Plan.ModuleValues1, 256) ?"check" : "close") Theme="outline" /></p>
+                            @*Manage Budget*@
+                            <p><Icon Type=@(Plan.IsModuleEnabled(Plan.ModuleValues1, 4096) ?"check" : "close") Theme="outline" /></p>
+                            @*BIR Forms*@
+                            <p><Icon Type=@(Plan.IsModuleEnabled(Plan.ModuleValues1, 512) ?"check" : "close") Theme="outline" /></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </AntDesign.Col>
+</Row>
