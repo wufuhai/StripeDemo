@@ -109,5 +109,10 @@ namespace QNE.App.Pages.Account
             public decimal BasePrice { get; set; }
 
         }
+
+        private void Checkout()
+        {
+
+        }
     }
 }
