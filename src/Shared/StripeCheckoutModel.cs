@@ -13,4 +13,16 @@ namespace StripeDemo.Shared
     {
         public string RedirectUrl { get; set; }
     }
+    
+    public class ManageBillingModel
+    {
+        [Required]
+        [StringLength(100)]
+        public string SessionId { get; set; }
+    }
+
+    public class ManageBillingResultModel
+    {
+        public string RedirectUrl { get; set; }
+    }
 }

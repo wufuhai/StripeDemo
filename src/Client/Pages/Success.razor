@@ -5,6 +5,11 @@
     <Result Status="success"
             Title="Subscription to Starter plan successful!"
             SubTitle=@($"Session ID: {SessionId}")>
+
+        <Extra>
+            <Button OnClick="@ManageBilling">Manage Billing Information</Button>
+            <Button><a href="/">Go back</a></Button>
+        </Extra>
     </Result>
 </PageContainer>
 
