@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using Stripe;
 
 namespace StripeDemo.Server
 {
@@ -29,6 +30,9 @@ namespace StripeDemo.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // This is your test secret API key.
+            StripeConfiguration.ApiKey = "sk_test_VsOCCaH9R8sWibkKSTVnFIOV";
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
