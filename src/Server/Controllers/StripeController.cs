@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace StripeDemo.Server.Controllers
 {
-    [Route("[api]/[controller]")]
+    [Route("api/[controller]")]
     public class StripeController : Controller
     {
         [HttpPost("[action]")]

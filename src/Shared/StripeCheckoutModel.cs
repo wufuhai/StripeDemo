@@ -6,7 +6,7 @@ namespace StripeDemo.Shared
     {
         [Required]
         [StringLength(100)]
-        public string PlanKey { get; set; } = "cloudaccounting-starter";
+        public string PlanKey { get; set; }
     }
 
     public class StripeCheckoutResultModel

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
+using QNE.App.Client.ClientServices;
 using QNE.Models.Dto;
 using QNE.Models.ViewModel;
+using StripeDemo.Shared;
 using System.Threading.Tasks;
 
 namespace QNE.App.Pages.Account
@@ -13,6 +15,9 @@ namespace QNE.App.Pages.Account
         [Parameter] public CompanyDto[] Companies { get; set; }
         [Parameter] public bool IsRegistration { get; set; } = false;
 
+        [Inject] IHttpService Http { get; set; }
+
+        [Inject] NavigationManager Nav { get; set; }
 
         private int CurrentManagePlanStep = 0;
         private string ManagePlanNextStepMessage = "Proceed to Add-ons";
@@ -110,9 +115,13 @@ namespace QNE.App.Pages.Account
 
         }
 
-        private void Checkout()
+        private async Task Checkout()
         {
-
+            var resp = await Http.PostAsync<StripeCheckoutResultModel>("/api/stripe/checkout", new StripeCheckoutModel { PlanKey = "cloudaccounting-starter" });
+            if (resp != null)
+            {
+                Nav.NavigateTo(resp.RedirectUrl);
+            }
         }
     }
 }
