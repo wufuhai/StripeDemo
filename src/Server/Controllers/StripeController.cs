@@ -34,8 +34,8 @@ namespace StripeDemo.Server.Controllers
                   },
                 },
                 Mode = "subscription",
-                SuccessUrl = domain + "/success.html?session_id={CHECKOUT_SESSION_ID}",
-                CancelUrl = domain + "/cancel.html",
+                SuccessUrl = domain + "/success/{CHECKOUT_SESSION_ID}",
+                CancelUrl = domain + "/cancel/{CHECKOUT_SESSION_ID}",
             };
             var service = new Stripe.Checkout.SessionService();
             var session = service.Create(options);

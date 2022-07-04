@@ -1,0 +1,10 @@
+﻿@page "/success/{SessionId?}"
+@using QNE.Models.ViewModel
+
+<PageContainer Title="Subscription Sucess">
+    <Result Status="success"
+            Title="Subscription to Starter plan successful!"
+            SubTitle=@($"Session ID: {SessionId}")>
+    </Result>
+</PageContainer>
+

@@ -1,0 +1,13 @@
+﻿@page "/cancel/{SessionId?}"
+@using QNE.Models.ViewModel
+
+<PageContainer Title="Checkout Cancelled">
+    <Result Status="error"
+            Title="Picked the wrong subscription? Shop around then come back to pay!"
+            SubTitle=@($"Session ID: {SessionId}")>
+        <Extra>
+            <Button><a href="/">Go back</a></Button>
+        </Extra>
+    </Result>
+</PageContainer>
+
